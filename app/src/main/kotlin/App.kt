@@ -7,8 +7,8 @@ import java.io.File
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main(args: Array<String>) {
-//    val pathUrl = ElfFile::class.java.classLoader.getResource("libmobileffmpeg.so")
-    val pathUrl = ElfFile::class.java.classLoader.getResource("libmobileffmpeg_16.so")
+    val pathUrl = ElfFile::class.java.classLoader.getResource("libmobileffmpeg.so")
+//    val pathUrl = ElfFile::class.java.classLoader.getResource("libmobileffmpeg_16.so")
     val data = File(pathUrl.path).getData()
     val elfFile = ElfFile(data)
     elfFile.apply {
@@ -18,6 +18,8 @@ fun main(args: Array<String>) {
         println("==============================")
         val loadMap = mutableListOf<String>()
         programHeaders.filter { it.p_type == ProgramTypes.PT_LOAD }.forEachIndexed { index, it ->
+            println("align->${it.p_align}")
+
             val start = it.p_offset
             val end = start + it.p_filesz
             loadMap += "[$index]\n"
