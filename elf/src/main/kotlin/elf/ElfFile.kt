@@ -38,14 +38,17 @@ class ElfFile(datas: ByteArray) : IOStream {
         tables = Array(sectionHeaders.size) {
             val sectionHeader = sectionHeaders[it]
             when (sectionHeader.sh_type) {
-                SectionTypes.SHT_REL -> RelTable(byteBuffer, sectionHeader)
-                SectionTypes.SHT_RELA -> RelaTable(byteBuffer, sectionHeader)
-                SectionTypes.SHT_SYMTAB -> SymTable(byteBuffer, sectionHeader)
-                SectionTypes.SHT_NULL -> NullTable(byteBuffer, sectionHeader)
-                SectionTypes.SHT_PROGBITS -> TextTable(byteBuffer, sectionHeader)
-                SectionTypes.SHT_DYNAMIC -> DynamicTable(byteBuffer, sectionHeader)
-                SectionTypes.SHT_STRTAB -> StringTable(byteBuffer, sectionHeader)
-                SectionTypes.SHT_NOBITS -> BaseTable()
+                SectionTypes.NOTE -> NoteTable(byteBuffer, sectionHeader)
+                SectionTypes.REL -> RelTable(byteBuffer, sectionHeader)
+                SectionTypes.RELA -> RelaTable(byteBuffer, sectionHeader)
+                SectionTypes.DYNSYM,
+                SectionTypes.SYMTAB -> SymTable(byteBuffer, sectionHeader)
+
+                SectionTypes.NULL -> NullTable(byteBuffer, sectionHeader)
+                SectionTypes.PROGBITS -> TextTable(byteBuffer, sectionHeader)
+                SectionTypes.DYNAMIC -> DynamicTable(byteBuffer, sectionHeader)
+                SectionTypes.STRTAB -> StringTable(byteBuffer, sectionHeader)
+                SectionTypes.NOBITS -> BaseTable()
                 else -> BaseDataTable(
                     byteBuffer,
                     sectionHeader
@@ -53,7 +56,7 @@ class ElfFile(datas: ByteArray) : IOStream {
             }
         }
         stringTable = tables[header.e_shstrndx.toInt()] as StringTable
-        println("ELF---> ${datas.size} - $readCount = ${datas.size - readCount}")
+//        println("ELF---> ${datas.size} - $readCount = ${datas.size - readCount}")
     }
 
     override fun toBytes(): ByteArray {

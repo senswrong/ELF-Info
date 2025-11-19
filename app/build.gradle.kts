@@ -4,7 +4,8 @@ plugins {
 }
 
 application {
-    mainClass = "com.sens.api.app.AppKt"
+//    mainClass = "com.sens.api.app.AppKt"
+    mainClass = "com.sens.api.app.CompareKt"
 }
 
 dependencies {

@@ -22,4 +22,8 @@ class Dynamic(byteBuffer: ByteBuffer) : IOStream {
         byteBuffer.putLong(d_val)
         return byteBuffer.array()
     }
+
+    override fun toString(): String {
+        return "${d_tag.toString(16)}\t${d_val.toString(16)}"
+    }
 }

@@ -1,6 +1,7 @@
 package elf.section.content
 
 import base.IOStream
+import elf.section.table.StringTable
 import ex.byte
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -13,6 +14,11 @@ class Symbol(byteBuffer: ByteBuffer) : IOStream {
     val st_value: Long        /* Symbol value */
     val st_size: Long        /* Symbol size */
 
+
+    val bind: SymbolBind
+    val type: SymbolType
+    val vis: SymbolVisibility
+
     init {
         st_name = byteBuffer.int
         st_info = byteBuffer.byte
@@ -20,6 +26,9 @@ class Symbol(byteBuffer: ByteBuffer) : IOStream {
         st_shndx = byteBuffer.short
         st_value = byteBuffer.long
         st_size = byteBuffer.long
+        bind = SymbolBind.get(st_info)
+        type = SymbolType.get(st_info)
+        vis = SymbolVisibility.get(st_other)
     }
 
     override fun toBytes(): ByteArray {
@@ -32,5 +41,9 @@ class Symbol(byteBuffer: ByteBuffer) : IOStream {
         byteBuffer.putLong(st_value)
         byteBuffer.putLong(st_size)
         return byteBuffer.array()
+    }
+
+    fun toString(dynString: StringTable?): String {
+        return "${st_value.toString(16)}\t${st_size}\t${type}\t${bind}\t${vis}\t${st_shndx}\t${dynString?.getText(st_name)}"
     }
 }

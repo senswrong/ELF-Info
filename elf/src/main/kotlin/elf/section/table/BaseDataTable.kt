@@ -7,7 +7,7 @@ import ex.seek
 import java.nio.ByteBuffer
 
 open class BaseDataTable(byteBuffer: ByteBuffer, sectionHeader: SectionHeader) : BaseTable() {
-    var data: ByteArray = byteArrayOf()
+    var data: ByteArray
 
     val start: Int
     val end: Int
