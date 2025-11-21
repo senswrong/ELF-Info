@@ -21,7 +21,7 @@ fun main(args: Array<String>) {
     var dynString: StringTable? = null
     elfFile.apply {
         readInfo.sortedBy { it.first }.forEach {
-            println(stringTable.getText(it.second) + it.third)
+            println((sectionStringHeader.table as StringTable).getText(it.second) + it.third)
         }
         println("==============================")
         val loadMap = mutableListOf<String>()
@@ -36,7 +36,7 @@ fun main(args: Array<String>) {
                     val ss = sectionHeader.sh_offset
                     val se = ss + sectionHeader.sh_size
                     if (sectionHeader.sh_offset >= start && se <= end) {
-                        val name = stringTable.getText(sectionHeader.sh_name)
+                        val name = sectionHeader.name
                         loadMap += "$name\n"
                     }
                 }
@@ -47,15 +47,15 @@ fun main(args: Array<String>) {
         }
         println("[]==============================")
         sectionHeaders.forEachIndexed { index, sectionHeader ->
-            val name = stringTable.getText(sectionHeader.sh_name)
+            val name = sectionHeader.name
             when (name) {
-                DYNSTR -> dynString = tables[index] as StringTable
-                SHSTRTAB -> sectionString = tables[index] as StringTable
+                DYNSTR -> dynString = sectionHeader.table as StringTable
+                SHSTRTAB -> sectionString = sectionHeader.table as StringTable
             }
         }
-        tables.forEachIndexed { index, table ->
-            println("[$index] {$table}")
-            when (table) {
+        sectionHeaders.forEachIndexed { index, sectionHeader ->
+            println("[$index] {${sectionHeader.table}}")
+            when (sectionHeader.table) {
                 is SymTable -> {
                     println("Num:    Value          Size Type    Bind   Vis      Ndx Name")
 //                    table.symbols.forEachIndexed { index, symbol ->
@@ -65,14 +65,14 @@ fun main(args: Array<String>) {
 
                 is RelaTable -> {
                     println("  Offset          Info           Type           Sym. Value    Sym. Name + Addend")
-                    table.relas.forEachIndexed { index, rela ->
+                    (sectionHeader.table as RelaTable).relas.forEachIndexed { index, rela ->
                         println("$index\t$rela")
                     }
                 }
 
                 is NoteTable -> {
                     println("note")
-                    println("${table.note.toString(dynString)}")
+                    println("${(sectionHeader.table as NoteTable).note}")
                 }
 //                is DynamicTable->table.dynamics.forEachIndexed { index, dynamic ->
 //                    println("$index\t$dynamic")

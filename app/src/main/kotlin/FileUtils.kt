@@ -7,5 +7,3 @@ fun File.getData(): ByteArray = BufferedInputStream(FileInputStream(this)).use {
         it.read(d)
     }
 }
-
-

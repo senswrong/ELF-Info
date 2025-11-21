@@ -1,17 +1,18 @@
 package elf.section.table
 
 import elf.section.SectionHeader
-import elf.section.content.Note
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-class NoteTable(override val name: String, byteBuffer: ByteBuffer, sectionHeader: SectionHeader) :
+class ArrayTable(override val name: String, byteBuffer: ByteBuffer, sectionHeader: SectionHeader) :
     BaseDataTable(name, byteBuffer, sectionHeader) {
-    val note: Note
+    val funcs: Array<Long>
 
     init {
         val buffer = ByteBuffer.wrap(data)
         buffer.order(ByteOrder.LITTLE_ENDIAN)
-        note = Note(buffer)
+        funcs = Array((sectionHeader.sh_size / 8).toInt()) {
+            buffer.getLong()
+        }
     }
 }

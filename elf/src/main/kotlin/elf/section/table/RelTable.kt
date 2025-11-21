@@ -5,7 +5,8 @@ import elf.section.content.Rel
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-class RelTable(byteBuffer: ByteBuffer, sectionHeader: SectionHeader) : BaseDataTable(byteBuffer, sectionHeader) {
+class RelTable(override val name: String, byteBuffer: ByteBuffer, sectionHeader: SectionHeader) :
+    BaseDataTable(name, byteBuffer, sectionHeader) {
     val rels: Array<Rel>
 
     init {

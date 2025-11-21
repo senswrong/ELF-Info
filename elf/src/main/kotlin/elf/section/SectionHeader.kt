@@ -3,10 +3,13 @@ package elf.section
 import base.IOStream
 import elf.ElfFile
 import elf.ElfFile.Companion.readInfo
+import elf.section.table.BaseTable
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
 class SectionHeader(byteBuffer: ByteBuffer) : IOStream {
+    var name: String = ""
+
     /* 节名称（字符串表索引）*/
     val sh_name: Int
 
@@ -39,6 +42,8 @@ class SectionHeader(byteBuffer: ByteBuffer) : IOStream {
 
     val start: Int
     val end: Int
+
+    var table: BaseTable? = null
 
     init {
         start = byteBuffer.position()

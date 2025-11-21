@@ -6,7 +6,8 @@ import elf.section.SectionHeader
 import ex.seek
 import java.nio.ByteBuffer
 
-open class BaseDataTable(byteBuffer: ByteBuffer, sectionHeader: SectionHeader) : BaseTable() {
+open class BaseDataTable(override val name: String, byteBuffer: ByteBuffer, sectionHeader: SectionHeader) :
+    BaseTable(name) {
     var data: ByteArray
 
     val start: Int

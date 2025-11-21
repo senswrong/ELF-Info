@@ -5,7 +5,8 @@ import elf.section.content.Dynamic
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-class DynamicTable(byteBuffer: ByteBuffer, sectionHeader: SectionHeader) : BaseDataTable(byteBuffer, sectionHeader) {
+class DynamicTable(override val name: String, byteBuffer: ByteBuffer, sectionHeader: SectionHeader) :
+    BaseDataTable(name, byteBuffer, sectionHeader) {
     val dynamics: Array<Dynamic>
 
     init {

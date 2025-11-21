@@ -5,7 +5,8 @@ import elf.section.content.Rela
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-class RelaTable(byteBuffer: ByteBuffer, sectionHeader: SectionHeader) : BaseDataTable(byteBuffer, sectionHeader) {
+class RelaTable(override val name: String, byteBuffer: ByteBuffer, sectionHeader: SectionHeader) :
+    BaseDataTable(name, byteBuffer, sectionHeader) {
     val relas: Array<Rela>
 
     init {

@@ -5,7 +5,8 @@ import elf.section.content.Symbol
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
-class SymTable(byteBuffer: ByteBuffer, sectionHeader: SectionHeader) : BaseDataTable(byteBuffer, sectionHeader) {
+class SymTable(override val name: String, byteBuffer: ByteBuffer, sectionHeader: SectionHeader) :
+    BaseDataTable(name, byteBuffer, sectionHeader) {
     val symbols: Array<Symbol>
 
     init {

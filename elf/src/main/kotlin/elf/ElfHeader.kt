@@ -18,10 +18,13 @@ class ElfHeader(byteBuffer: ByteBuffer) : IOStream {
 
     //elf版本
     val ei_version: Byte
+
     //目标系统ABI
     val ei_os_abi: Byte
+
     //ABI版本
     val ei_abi_version: Byte
+
     //保留字节
     val ei_padding: ByteArray = ByteArray(7)
 
@@ -65,7 +68,7 @@ class ElfHeader(byteBuffer: ByteBuffer) : IOStream {
     val e_shstrndx: Short
 
     init {
-        val start =byteBuffer.position()
+        val start = byteBuffer.position()
         byteBuffer.get(ei_magic)
         ei_class = byteBuffer.byte
         ei_data = byteBuffer.byte

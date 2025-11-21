@@ -12,11 +12,16 @@ class Rel(byteBuffer: ByteBuffer) : IOStream {
         r_offset = byteBuffer.long
         r_info = byteBuffer.long
     }
+
     override fun toBytes(): ByteArray {
         val byteBuffer = ByteBuffer.allocate(16)
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN)
         byteBuffer.putLong(r_offset)
         byteBuffer.putLong(r_info)
         return byteBuffer.array()
+    }
+
+    override fun toString(): String {
+        return "offset: $r_offset info: $r_info"
     }
 }

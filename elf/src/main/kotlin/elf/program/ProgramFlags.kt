@@ -9,11 +9,11 @@ enum class ProgramFlags(val value: Int) {
     PF_MASKPROC(0xf0000000.toInt());//	Unspecified
 
     companion object {
-        fun getStringBy(value: Int):String{
+        fun getStringBy(value: Int): String {
             var str = ""
-            for (entry in ProgramFlags.values()){
-                if ((entry.value and value) !=0){
-                    str ="${str} ${entry.name}"
+            for (entry in ProgramFlags.values()) {
+                if ((entry.value and value) != 0) {
+                    str = "${str} ${entry.name}"
                 }
             }
             return str

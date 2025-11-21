@@ -6,7 +6,8 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
 
-class StringTable(byteBuffer: ByteBuffer, header: SectionHeader) : BaseDataTable(byteBuffer, header) {
+class StringTable(override val name: String, byteBuffer: ByteBuffer, header: SectionHeader) :
+    BaseDataTable(name, byteBuffer, header) {
     val indexs: MutableList<Int> = mutableListOf()
     val strings: MutableList<String> = mutableListOf()
 

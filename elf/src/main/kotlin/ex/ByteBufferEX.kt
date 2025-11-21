@@ -5,7 +5,7 @@ import java.nio.ByteBuffer
 var seekInfo = ""
 fun ByteBuffer.seek(position: Int) {
     if (position() != position)
-        seekInfo += ("${position()}<>${position} -> ${position-position()}\n")
+        seekInfo += ("${position()}<>${position} -> ${position - position()}\n")
     position(position)
 }
 

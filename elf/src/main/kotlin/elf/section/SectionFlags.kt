@@ -57,11 +57,11 @@ enum class SectionFlags(val value: Long) {
     MASKPROC(0xf0000000);
 
     companion object {
-        fun getStringBy(value: Long):String{
+        fun getStringBy(value: Long): String {
             var str = ""
-            for (entry in values()){
-                if ((entry.value and value) !=0L){
-                    str ="${str} ${entry.name}"
+            for (entry in values()) {
+                if ((entry.value and value) != 0L) {
+                    str = "${str} ${entry.name}"
                 }
             }
             return str

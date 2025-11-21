@@ -34,9 +34,9 @@ enum class SectionTypes(val value: Int) {
     SUNW_move(0x6ffffffa),     // Same thing
     SUNW_COMDAT(0x6ffffffb),
     SUNW_syminfo(0x6ffffffc),
-    GNU_verdef(0x6ffffffd),     /* Version definition section */
-    GNU_verdneed(0x6ffffffe),     /* Version needs section */
-    GNY_versym(0x6fffffff),     /* Version symbol table */
+    GNU_VERDEF(0x6ffffffd),     /* Version definition section */
+    GNU_VERDNEED(0x6ffffffe),     /* Version needs section */
+    GNY_VERSYM(0x6fffffff),     /* Version symbol table */
     HISUNW(0x6fffffff),     /* Sun-specific high bound */
     HIOS(0x6fffffff),     /* Highest OS-specific section type */
     LOPROC(0x70000000),     /* Start of processor-specific section type */
