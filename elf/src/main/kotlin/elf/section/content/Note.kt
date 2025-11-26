@@ -1,6 +1,7 @@
 package elf.section.content
 
 import base.IOStream
+import ex.toCompactHex
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.charset.StandardCharsets
@@ -36,6 +37,6 @@ class Note(byteBuffer: ByteBuffer) : IOStream {
     }
 
     override fun toString(): String {
-        return "${n_namesz.toString(16)}\t${n_descsz.toString(16)}\t${n_type.toString(16)}}"
+        return "${name.trimEnd()}-> ${description.toCompactHex()}"
     }
 }

@@ -7,18 +7,9 @@ import java.io.File
 fun main(args: Array<String>) {
     val elf4File = ElfFile(File(ElfFile::class.java.classLoader.getResource("libmobileffmpeg.so").path).getData())
     val elf16File = ElfFile(File(ElfFile::class.java.classLoader.getResource("libmobileffmpeg_16.so").path).getData())
-    var section16String: StringTable? = null
-    var dyn16String: StringTable? = null
-    elf16File.apply {
-        sectionHeaders.forEachIndexed { index, sectionHeader ->
-            val name = sectionHeader.name
-            when (name) {
-                DYNSTR -> dyn16String = sectionHeader.table as StringTable
-                SHSTRTAB -> section16String = sectionHeader.table as StringTable
-            }
-        }
-    }
+    val dyn16String = elf16File.sectionHeaders.find { it.name == DYNSTR }?.table as StringTable
 
+    val changeList = mutableListOf<String>()
     elf16File.sectionHeaders.forEachIndexed { index, section16Header ->
         val table4 = elf4File.sectionHeaders[index].table
         val table16 = section16Header.table
@@ -26,9 +17,14 @@ fun main(args: Array<String>) {
         if (table4.data.contentEquals(table16.data)) return@forEachIndexed
 
         val sectionHeader = elf16File.sectionHeaders[index]
-        val name = section16String?.getText(sectionHeader.sh_name)
-        println("$name <> ${sectionHeader.sh_type}")
+        println("${sectionHeader.name} <> ${sectionHeader.sh_type}")
+        changeList += "${sectionHeader.name} <> ${sectionHeader.sh_type}"
         when (table16) {
+            is NoteTable -> {
+                println("${(table4 as NoteTable).note}")
+                println("${table16.note}")
+            }
+
             is SymTable -> {
                 println("Num:    Value          Size Type    Bind   Vis      Ndx Name")
                 table16.symbols.forEachIndexed { index, symbol16 ->
@@ -63,5 +59,9 @@ fun main(args: Array<String>) {
                 }
             }
         }
+    }
+    println("------------------------------")
+    for (s in changeList) {
+        println(s)
     }
 }

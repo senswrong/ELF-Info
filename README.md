@@ -1,23 +1,36 @@
-# untitled
+## section
 
-This project uses [Gradle](https://gradle.org/).
-To build and run the application, use the *Gradle* tool window by clicking the Gradle icon in the right-hand toolbar,
-or run it directly from the terminal:
+### .note.gnu.build-id
 
-* Run `./gradlew run` to build and run the application.
-* Run `./gradlew build` to only build the application.
-* Run `./gradlew check` to run all checks, including tests.
-* Run `./gradlew clean` to clean all build outputs.
+**构建标识段**<br>
+存储 ELF 文件的 唯一构建标识（Build ID），用于区分不同构建版本的文件（即使文件名相同）
 
-Note the usage of the Gradle Wrapper (`./gradlew`).
-This is the suggested way to use Gradle in production projects.
+### .dynsym
 
-[Learn more about the Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+**动态符号表**<br>
+存储 ELF 文件的 动态符号信息（即需要动态链接的符号，如外部库函数、全局变量），是动态链接器（ld-linux.so）查找符号的核心依据。
 
-[Learn more about Gradle tasks](https://docs.gradle.org/current/userguide/command_line_interface.html#common_tasks).
+### .rela.dyn
 
-This project follows the suggested multi-module setup and consists of the `app` and `utils` subprojects.
-The shared build logic was extracted to a convention plugin located in `buildSrc`.
+**动态重定位表（数据段）**<br>
+存储 数据段（.data/.bss 等）的重定位信息，动态链接器在加载 ELF 时，根据这些信息修正数据段中引用的外部符号地址（确保指向正确的内存位置）。
 
-This project uses a version catalog (see `gradle/libs.versions.toml`) to declare and version dependencies
-and both a build cache and a configuration cache (see `gradle.properties`).
+### .rela.plt
+
+**过程链接表重定位表（函数段）**<br>
+存储 过程链接表（.plt）的重定位信息，专门用于修正外部函数符号的地址（如printf、malloc），是延迟绑定（Lazy Binding）的核心依赖。
+
+### .text
+
+**代码段**<br>
+存储 ELF 文件的 机器指令（可执行代码），是程序运行的核心逻辑载体（如函数实现、循环 / 分支指令等）。
+
+### .plt
+
+**过程链接表**<br>
+作为 外部函数的间接跳转表，实现函数调用的 “地址无关性” 和 “延迟绑定”，是动态链接的关键组件。
+
+### .dynamic
+
+**动态段**<br>
+存储 ELF 的 动态链接信息，是动态链接器（ld-linux.so）加载和链接 ELF 的 “说明书”（告诉链接器如何处理依赖、重定位、符号查找等）。
